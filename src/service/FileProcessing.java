@@ -84,6 +84,15 @@ public class FileProcessing {
         File sourceFolder = new File(transfersFolderPath);
         File targetFolder = new File(transfersArchive);
 
+        if (!targetFolder.exists()) {
+            if (targetFolder.mkdirs()) {
+                System.out.println("Создана папка архива: " + targetFolderPath);
+            } else {
+                System.err.println("Не удалось создать папку архива: " + targetFolderPath);
+                return movedFiles; // возвращаем пустой список, если папку не удалось создать
+            }
+        }
+
         // Получаем все файлы в исходной папке
         File[] files = sourceFolder.listFiles();
         if (files == null) {

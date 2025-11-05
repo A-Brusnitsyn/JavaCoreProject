@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +33,12 @@ public class FileProcessing {
     }
 
     public void writeHashMapToFile(Map<String, Double> accountsMap) {
+        DecimalFormat df = new DecimalFormat("#0.00");
         try (BufferedWriter writer = new BufferedWriter(
                 new FileWriter(bankAccountsPath))) {
 
             for (Map.Entry<String, Double> entry : accountsMap.entrySet()) {
-                writer.write(entry.getKey() + " " + entry.getValue());
+                writer.write(entry.getKey() + " " + df.format(entry.getValue()));
                 writer.newLine();
             }
             System.out.println("Актуальное состояние счетов сохранено в файл: " + bankAccountsPath);

@@ -16,9 +16,7 @@ public class LogService {
         this.dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 
-    /**
-     * Логирует успешную операцию перевода с указанием файла
-     */
+     //Логирует успешную операцию перевода с указанием файла
     public void logSuccess(String sourceFile, String fromAccount, String toAccount, double amount,
                            double newFromBalance, double newToBalance) {
         String timestamp = LocalDateTime.now().format(dateFormatter);
@@ -27,9 +25,7 @@ public class LogService {
         logEntries.add(logEntry);
     }
 
-    /**
-     * Логирует ошибку перевода с указанием файла
-     */
+    //Логирует ошибку перевода с указанием файла
     public void logError(String sourceFile, String fromAccount, String toAccount, double amount, String errorMessage) {
         String timestamp = LocalDateTime.now().format(dateFormatter);
         String logEntry = String.format("%s | %s | перевод с %s на %s в сумме %.2f | ошибка во время обработки, %s",
@@ -37,9 +33,7 @@ public class LogService {
         logEntries.add(logEntry);
     }
 
-    /**
-     * Логирует ошибку с исходной строкой и указанием файла
-     */
+    //Логирует ошибку с исходной строкой и указанием файла
     public void logErrorWithRawLine(String sourceFile, String rawLine, String errorMessage) {
         String timestamp = LocalDateTime.now().format(dateFormatter);
         String logEntry = String.format("%s | %s | %s | ошибка во время обработки, %s",
@@ -47,13 +41,12 @@ public class LogService {
         logEntries.add(logEntry);
     }
 
-    /**
-     * Возвращает все записи лога
-     */
+    //Возвращает все записи лога
     public List<String> getLogEntries() {
         return new ArrayList<>(logEntries);
     }
 
+    //фильтрация лог файла по датам
     public List<String> filterLogByDateRange(List<String> logEntries, String startDateStr, String endDateStr) {
         List<String> filteredEntries = new ArrayList<>();
 
@@ -85,13 +78,10 @@ public class LogService {
         } catch (Exception e) {
             System.err.println("Ошибка при фильтрации лога: " + e.getMessage());
         }
-
         return filteredEntries;
     }
 
-    /**
-     * Проверяет, находится ли запись в указанном диапазоне дат
-     */
+    //Проверяет, находится ли запись в указанном диапазоне дат
     private boolean isEntryInDateRange(String logEntry, LocalDate startDate, LocalDate endDate) {
         try {
             // Дата всегда первая в строке в формате "2024-01-15 14:30:25"
@@ -108,9 +98,7 @@ public class LogService {
         return false;
     }
 
-    /**
-     * Выводит отфильтрованные записи в консоль
-     */
+    //Выводит отфильтрованные записи в консоль
     public void printFilteredLog(List<String> filteredEntries, String startDate, String endDate) {
         if (filteredEntries.isEmpty()) {
             System.out.println("Нет записей за указанный период");

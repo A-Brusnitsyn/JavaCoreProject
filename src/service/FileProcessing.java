@@ -74,7 +74,7 @@ public class FileProcessing {
                 }
             }
         }
-        moveToArchive(transfersFolderPath,transfersArchive);
+        moveToArchive(transfersFolderPath, transfersArchive);
         return filesWithTransfers;
     }
 
@@ -124,7 +124,7 @@ public class FileProcessing {
             return;
         }
 
-        try (FileWriter writer = new FileWriter(logPath,true)) {
+        try (FileWriter writer = new FileWriter(logPath, true)) {
             for (String logEntry : logEntries) {
                 writer.write(logEntry + "\n");
             }
@@ -149,8 +149,6 @@ public class FileProcessing {
         } catch (Exception e) {
             System.err.println("Неизвестная ошибка при чтении лог файла: " + e.getMessage());
         }
-
         return logEntries;
     }
-
 }

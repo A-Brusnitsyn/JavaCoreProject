@@ -34,7 +34,6 @@ public class AccountsService {
                 accountsMap.put(account, amount);
             }
         }
-
         return accountsMap;
     }
 
@@ -55,7 +54,6 @@ public class AccountsService {
 
         System.out.printf("ОБЩАЯ СУММА: %.2f%n", totalAmount);
     }
-
 
     public double getAccountAmount(String accountNumber) {
         return accountsMap.getOrDefault(accountNumber, 0.0);

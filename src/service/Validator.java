@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-    private final String accRegex = "^\\d{5}-\\d{5}$";
-    private final Pattern accPattern = Pattern.compile(accRegex);
+    private static final String accRegex = "^\\d{5}-\\d{5}$";
+    private static final Pattern accPattern = Pattern.compile(accRegex);
 
     public List<String> accValidation(List<String> accounts) {
         List<String> validAccounts = new ArrayList<>();
@@ -30,24 +30,17 @@ public class Validator {
             } catch (WrongAccountException | IncorrectAmountException e) {
                 System.out.println(e.getMessage() + " " + line);
             }
-
         }
         return validAccounts;
     }
 
-    private boolean isValidAccount(String line) throws WrongAccountException, IncorrectAmountException {
-        //if (line == null || line.trim().isEmpty()) {
-        //    throw new WrongAccountException("Пустая строка!");
-        //}
-
+    private static boolean isValidAccount(String line) throws WrongAccountException, IncorrectAmountException {
         String[] parts = line.split("\\s+");
-        // Убедимся, что строка содержит счет и значение
+        // Проверка, что строка содержит счет и значение
         if (parts.length == 2) {
             String acc = parts[0].trim();
             String valueString = parts[1].trim();
-            // Создаем Matcher для проверки счета
             Matcher keyMatcher = accPattern.matcher(acc);
-            // Проверяем, соответствует ли счет шаблону
             if (!keyMatcher.matches()) {
                 throw new WrongAccountException("Неверный счет!");
             }
@@ -56,7 +49,6 @@ public class Validator {
                 if (valueString.matches(".*[a-zA-Zа-яА-Я].*")) {
                     throw new IncorrectAmountException("Сумма не должна содержать буквы!");
                 }
-                // Пробуем преобразовать значение в число
                 double value = Double.parseDouble(valueString);
                 if (value < 0) {
                     throw new IncorrectAmountException("Отрицательная сумма!");
@@ -71,10 +63,10 @@ public class Validator {
             String acc = parts[0].trim();
             String acc2 = parts[2].trim();
             String valueString = parts[1].trim();
-            // Создаем Matcher для проверки счета
+
             Matcher account = accPattern.matcher(acc);
             Matcher account2 = accPattern.matcher(acc2);
-            // Проверяем, соответствует ли счет шаблону
+
             if (!account.matches()) {
                 throw new WrongAccountException("Неверный счет!");
             }
@@ -86,7 +78,7 @@ public class Validator {
                 if (valueString.matches(".*[a-zA-Zа-яА-Я].*")) {
                     throw new IncorrectAmountException("Отказ в переводе! Сумма не должна содержать буквы!");
                 }
-                // Пробуем преобразовать значение в число
+
                 double value = Double.parseDouble(valueString);
                 if (value <= 0) {
                     throw new IncorrectAmountException("Отказ в переводе, сумма должна быть положительной!");
@@ -99,6 +91,5 @@ public class Validator {
         } else {
             throw new WrongAccountException("Неверный формат!");
         }
-
     }
 }

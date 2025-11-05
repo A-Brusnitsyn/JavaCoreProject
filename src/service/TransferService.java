@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class TransferService {
     private final Validator accountValidator;
-    private  Map<String, Double> accountsMap;
+    private Map<String, Double> accountsMap;
     private final LogService transferLogger;
 
     public TransferService(Validator accountValidator, Map<String, Double> accountsMap, LogService transferLogger) {
@@ -17,13 +17,8 @@ public class TransferService {
         this.transferLogger = transferLogger;
     }
 
-    public void setAccountsMap(Map<String, Double> accountsMap) {
-        this.accountsMap = accountsMap;
-    }
-    /**
-     * Обрабатывает переводы из одного файла
-     */
-    public void transferAll(String sourceFile, List<String> transfers) {
+    //Обрабатывает переводы из одного файла
+    public void transferFile(String sourceFile, List<String> transfers) {
         if (transfers == null || transfers.isEmpty()) {
             System.out.println("Нет данных для перевода в файле: " + sourceFile);
             return;
@@ -43,25 +38,21 @@ public class TransferService {
         }
     }
 
-    /**
-     * Обрабатывает переводы из нескольких файлов
-     */
-    public void processMultipleFiles(Map<String, List<String>> filesWithTransfers) {
+    //Обрабатывает переводы из нескольких файлов
+    public void transferMultipleFiles(Map<String, List<String>> filesWithTransfers) {
         if (filesWithTransfers == null || filesWithTransfers.isEmpty()) {
             System.out.println("Нет файлов для обработки!");
             return;
         }
-
         for (Map.Entry<String, List<String>> entry : filesWithTransfers.entrySet()) {
             String fileName = entry.getKey();
             List<String> transfers = entry.getValue();
-            transferAll(fileName, transfers);
+            transferFile(fileName, transfers);
         }
     }
 
-    /**
-     * Выполняет перевод с указанием файла-источника
-     */
+
+    //Выполняет перевод с указанием файла-источника
     public void transfer(String sourceFile, String line) {
         String[] parts = line.split(" ");
         String from = parts[0].trim();
@@ -96,9 +87,7 @@ public class TransferService {
         transferLogger.logSuccess(sourceFile, from, to, value, newFromBalance, newToBalance);
     }
 
-    /**
-     * Логирует ошибку перевода с указанием файла
-     */
+    //Логирует ошибку перевода с указанием файла
     private void logTransferError(String sourceFile, String line, String errorMessage) {
         try {
             String[] parts = line.split(" ");

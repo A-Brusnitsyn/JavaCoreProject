@@ -59,9 +59,7 @@ public class BankService {
         System.out.print("Выберите действие: ");
     }
 
-    /**
-     * Обрабатывает все переводы
-     */
+    //Обрабатывает все переводы
     public void processTransfers() {
         System.out.println("\n=== ОБРАБОТКА ПЕРЕВОДОВ ===");
 
@@ -98,16 +96,13 @@ public class BankService {
         Map<String, List<String>> filesWithTransfers = fileProcessing.moneyTransferRead();
         System.out.println("Найдено файлов для переводов: " + filesWithTransfers.size());
 
-        // 7. Обработка переводов из всех файлов
         if (!filesWithTransfers.isEmpty()) {
             // ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА ПЕРЕД ВЫЗОВОМ
             if (transferService != null) {
-                transferService.processMultipleFiles(filesWithTransfers);
+                transferService.transferMultipleFiles(filesWithTransfers);
 
-                // 8. Сохранение актуального состояния счетов
                 fileProcessing.writeHashMapToFile(currentAccountsMap);
 
-                // 9. Сохранение лога операций
                 List<String> logEntries = logService.getLogEntries();
                 if (!logEntries.isEmpty()) {
                     fileProcessing.writeLogToFile(logEntries);
@@ -125,13 +120,10 @@ public class BankService {
         }
     }
 
-    /**
-     * Просматривает историю операций по датам
-     */
+    //Просматривает историю операций по датам
     public void viewOperationHistory() {
         System.out.println("\n=== ПРОСМОТР ИСТОРИИ ОПЕРАЦИЙ ПО ДАТАМ ===");
 
-        // Читаем лог файл
         List<String> logEntries = fileProcessing.readLogFile();
 
         if (logEntries.isEmpty()) {
@@ -145,16 +137,12 @@ public class BankService {
         System.out.print("Введите конечную дату (ГГГГ-ММ-ДД): ");
         String endDate = scanner.nextLine().trim();
 
-        // Фильтруем записи по датам
         List<String> filteredEntries = logService.filterLogByDateRange(logEntries, startDate, endDate);
 
-        // Выводим результат
         logService.printFilteredLog(filteredEntries, startDate, endDate);
     }
 
-    /**
-     * Печатает текущие счета
-     */
+    //Печатает текущие счета
     public void printAccounts() {
         System.out.println("\n=== ТЕКУЩЕЕ СОСТОЯНИЕ СЧЕТОВ ===");
 
@@ -174,9 +162,6 @@ public class BankService {
         }
     }
 
-    /**
-     * Закрывает ресурсы
-     */
     public void close() {
         if (scanner != null) {
             scanner.close();
